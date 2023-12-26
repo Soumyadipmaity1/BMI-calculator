@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body id="body">
+
+    <div id="calbody">
+        <h1>BMI Calculator</h1>
+        <form id="form">
+            <p><label>Height in cm:</label> <input type="text" id="height" placeholder="Enter your height in cm"></p>
+            <p><label>Weight in kg:</label> <input type="text" id="weight" placeholder="Enter your Weight in kg"></p>
+        </form>
+        <button id="btn">Calculate</button>
+        <div id="results">
+            <p>Result</p>
+        </div>
+        <div id="result2">
+        </div>
+        <div id="weight-guide">
+            <h3>BMI Weight Guide:</h3>
+            <ul>
+                <li>Under Weight = Less than 18.6</li>
+                <li>Normal Range = 18.6 and 24.9</li>
+                <li>Overweight = Greater than 24.9</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const form = document.querySelector('#form');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const height = parseFloat(document.querySelector('#height').value);
+            const weight = parseFloat(document.querySelector('#weight').value);
+            const results = document.querySelector('#results');
+            const result2 = document.querySelector('#result2');
+
+
+            if (isNaN(height) || height <= 0 || isNaN(weight) || weight <= 0) {
+                results.innerHTML = `Please enter valid height and weight`;
+            } else {
+                const bmi = (weight / ((height * height) / 10000)).toFixed(2);
+                results.innerHTML = `<span>${bmi}</span>`;
+
+                if (bmi < 18.6) {
+                    result2.innerHTML = `You are Underweight!`;
+
+                    const image = document.createElement('img');
+                    image.src = 'underweight.webp';
+                    image.alt = 'BMI Result Image';
+                    result2.appendChild(image);
+                }
+                else if (bmi > 24.9) {
+                    result2.innerHTML = `You are Overweight!`;
+                    const image = document.createElement('img');
+                    image.src = './overweight.jpg';
+                    image.alt = 'BMI Result Image';
+                    result2.appendChild(image);
+
+                }
+                else {
+                    result2.innerHTML = `You are Perfect!`;
+                }
+            }
+        });
+
+        const calculateButton = document.querySelector('#btn');
+        calculateButton.addEventListener('click', function () {
+            form.dispatchEvent(new Event('submit'));
+        });
+    </script>
+
+</body>
+
+</html>
